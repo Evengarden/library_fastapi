@@ -20,16 +20,20 @@ def create_user(db: Session, user: schemas.User):
 
 
 def create_book(db: Session, book: schemas.Book):
-    db_book = models.Book(name = book.name, category_id = book.category_id, author_fullname = book.author_fullname, date_of_create = book.date)
+    db_book = models.Book(name=book.name, category_id=book.category_id, author_fullname=book.author_fullname,
+                          date_of_create=book.date)
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
     return db_book
 
 
-def get_user_books(db: Session, user: schemas.User):
-    pass
+def get_user_books(db: Session):
+    return db.query(models.UserBook).all()
 
 
-def delete_user(db: Session, user: schemas.User):
-    pass
+def delete_user(db: Session, user_id: int):
+    db_user = db.query(models.User).get(user_id)
+    db.delete(db_user)
+    db.commit()
+    return db_user

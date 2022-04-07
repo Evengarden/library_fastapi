@@ -29,7 +29,8 @@ class Book(Base):
     date_of_create = Column(Date)
 
 
-user_book_table = Table('user_book', Base.metadata,
-                        Column('user_id', ForeignKey('users.id')),
-                        Column('book_id', ForeignKey('books.id'))
-                        )
+class UserBook(Base):
+    __tablename__ = 'user_books'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    book_id = Column(Integer, ForeignKey('books.id'))
